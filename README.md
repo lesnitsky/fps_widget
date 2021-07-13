@@ -6,6 +6,8 @@
 
 Simple FPS widget
 
+![FPS Widget screenshot](https://lesnitsky-images.s3.eu-north-1.amazonaws.com/fps_widget_demo_screenshot.png)
+
 ## Installation
 
 pubspec.yaml:
@@ -14,7 +16,6 @@ pubspec.yaml:
 dependencies:
   fps_widget: ^1.0.0
 ```
-
 
 ## Example
 
@@ -90,7 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 ```
-
 
 ## License
 
