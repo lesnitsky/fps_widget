@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:fps_widget/fps_widget.dart';
 
 void main() {
@@ -30,12 +33,30 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+final r = Random();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+class _MyHomePageState extends State<MyHomePage> {
+  final s = Stopwatch();
+  int throttledFramesCount = 0;
+
+  void throttle() {
+    s.start();
+
+    int duration = r.nextInt(30) + 10;
+
+    while (s.elapsedMilliseconds < duration) {}
+    s.reset();
+    s.stop();
+
+    if (throttledFramesCount > 7) {
+      throttledFramesCount = 0;
+      return;
+    }
+
+    throttledFramesCount++;
+
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+      throttle();
     });
   }
 
@@ -46,23 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: OutlinedButton(
+          child: Text("Throttle FPS"),
+          onPressed: throttle,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }
