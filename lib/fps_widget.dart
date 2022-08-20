@@ -32,7 +32,7 @@ class _FPSWidgetState extends State<FPSWidget> {
 
   @override
   void initState() {
-    SchedulerBinding.instance!.addPostFrameCallback(update);
+    SchedulerBinding.instance.addPostFrameCallback(update);
     super.initState();
   }
 
@@ -50,7 +50,7 @@ class _FPSWidgetState extends State<FPSWidget> {
     });
 
     if (mounted) {
-      SchedulerBinding.instance!.addPostFrameCallback(update);
+      SchedulerBinding.instance.addPostFrameCallback(update);
     }
   }
 
@@ -60,54 +60,57 @@ class _FPSWidgetState extends State<FPSWidget> {
       alignment: widget.alignment,
       children: [
         widget.child,
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: height,
-            width: width + 17,
-            padding: const EdgeInsets.all(6.0),
-            decoration: BoxDecoration(
-              color: Color(0xaa000000),
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (timings.isNotEmpty)
-                  Text(
-                    'FPS: ${timings.last.fps.toStringAsFixed(0)}',
-                    style: TextStyle(color: Color(0xffffffff)),
-                  ),
-                SizedBox(height: 4),
-                Expanded(
-                  child: Container(
-                    width: width,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        ...timings.map((timing) {
-                          final p = (timing.fps / 60).clamp(0.0, 1.0);
+        Visibility(
+          visible: widget.show,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: height,
+              width: width + 17,
+              padding: const EdgeInsets.all(6.0),
+              decoration: BoxDecoration(
+                color: Color(0xaa000000),
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (timings.isNotEmpty)
+                    Text(
+                      'FPS: ${timings.last.fps.toStringAsFixed(0)}',
+                      style: TextStyle(color: Color(0xffffffff)),
+                    ),
+                  SizedBox(height: 4),
+                  Expanded(
+                    child: Container(
+                      width: width,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          ...timings.map((timing) {
+                            final p = (timing.fps / 60).clamp(0.0, 1.0);
 
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              right: 1.0,
-                            ),
-                            child: Container(
-                              color: Color.lerp(
-                                Color(0xfff44336),
-                                Color(0xff4caf50),
-                                p,
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                right: 1.0,
                               ),
-                              width: 4,
-                              height: p * height,
-                            ),
-                          );
-                        })
-                      ],
+                              child: Container(
+                                color: Color.lerp(
+                                  Color(0xfff44336),
+                                  Color(0xff4caf50),
+                                  p,
+                                ),
+                                width: 4,
+                                height: p * height,
+                              ),
+                            );
+                          })
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
