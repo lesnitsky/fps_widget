@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Material(
         child: FPSWidget(
+          show: true,
           child: MyHomePage(title: 'FPS Widget Demo'),
         ),
       ),
@@ -55,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     throttledFramesCount++;
 
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       throttle();
     });
   }
